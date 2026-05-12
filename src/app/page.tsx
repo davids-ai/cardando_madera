@@ -1,5 +1,6 @@
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { SiteControls } from "@/components/layout/site-controls";
 import { HeroSection } from "@/components/sections/hero-section";
 import { HomeSections } from "@/components/sections/home-sections";
 import { getEvents, getGallery, getNews, getStats, getTestimonials } from "@/lib/supabase/queries";
@@ -27,6 +28,7 @@ export default async function HomePage() {
         />
       </main>
       <Footer />
+      <SiteControls />
     </div>
   );
 }

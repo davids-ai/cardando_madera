@@ -14,16 +14,17 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Fundacion Cardando Madera | Cultura y accion comunitaria",
+  title: "Fundacion Cardando Madera | Arte, musica y cultura",
   description:
-    "Plataforma oficial de la Fundacion Cardando Madera en Duitama, Boyaca. Arte, educacion y transformacion social.",
+    "Plataforma oficial de la Fundacion Cardando Madera en Duitama, Boyaca. Arte, musica, cultura y transformacion social.",
   keywords: [
     "Fundacion Cardando Madera",
     "Duitama",
     "Boyaca",
     "arte comunitario",
     "educacion cultural",
-    "accion solidaria",
+    "musica",
+    "talleres artisticos",
   ],
 };
 
@@ -33,8 +34,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${nunito.variable} ${playfair.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#f7f0e6] text-stone-900 dark:bg-stone-950 dark:text-stone-100">
+    <html lang="es" suppressHydrationWarning className={`${nunito.variable} ${playfair.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-300">
         <Providers>{children}</Providers>
       </body>
     </html>

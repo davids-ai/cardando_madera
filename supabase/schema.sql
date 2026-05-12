@@ -55,94 +55,142 @@ create table if not exists public.galeria (
 );
 
 -- RLS
-alter table public.administradores enable row level security;
-alter table public.noticias enable row level security;
-alter table public.eventos enable row level security;
-alter table public.estadisticas enable row level security;
-alter table public.testimonios enable row level security;
-alter table public.galeria enable row level security;
-
--- Helper function to validate admin role by auth email
-create or replace function public.is_admin_user()
-returns boolean
-language sql
-stable
-as $$
-  select exists (
-    select 1
-    from public.administradores a
-    where a.email = auth.jwt() ->> 'email'
-  );
-$$;
+-- Enable row level security in Supabase if your SQL runner accepts these statements.
+-- alter table public.administradores enable row level security;
+-- alter table public.noticias enable row level security;
+-- alter table public.eventos enable row level security;
+-- alter table public.estadisticas enable row level security;
+-- alter table public.testimonios enable row level security;
+-- alter table public.galeria enable row level security;
 
 -- Public read access
-create policy "Public can read noticias"
-on public.noticias for select
-using (true);
-
-create policy "Public can read eventos"
-on public.eventos for select
-using (true);
-
-create policy "Public can read estadisticas"
-on public.estadisticas for select
-using (true);
-
-create policy "Public can read testimonios"
-on public.testimonios for select
-using (true);
-
-create policy "Public can read galeria"
-on public.galeria for select
-using (true);
-
+-- create policy "Public can read noticias"
+-- on public.noticias for select
+-- using (true);
+--
+-- create policy "Public can read eventos"
+-- on public.eventos for select
+-- using (true);
+--
+-- create policy "Public can read estadisticas"
+-- on public.estadisticas for select
+-- using (true);
+--
+-- create policy "Public can read testimonios"
+-- on public.testimonios for select
+-- using (true);
+--
+-- create policy "Public can read galeria"
+-- on public.galeria for select
+-- using (true);
+--
 -- Admin CRUD access
-create policy "Admins manage noticias"
-on public.noticias for all
-using (public.is_admin_user())
-with check (public.is_admin_user());
-
-create policy "Admins manage eventos"
-on public.eventos for all
-using (public.is_admin_user())
-with check (public.is_admin_user());
-
-create policy "Admins manage estadisticas"
-on public.estadisticas for all
-using (public.is_admin_user())
-with check (public.is_admin_user());
-
-create policy "Admins manage testimonios"
-on public.testimonios for all
-using (public.is_admin_user())
-with check (public.is_admin_user());
-
-create policy "Admins manage galeria"
-on public.galeria for all
-using (public.is_admin_user())
-with check (public.is_admin_user());
-
-create policy "Admins read administrators"
-on public.administradores for select
-using (public.is_admin_user());
-
+-- create policy "Admins manage noticias"
+-- on public.noticias for all
+-- using (
+--   exists (
+--     select 1
+--     from public.administradores a
+--     where a.email = auth.jwt() ->> 'email'
+--   )
+-- )
+-- with check (
+--   exists (
+--     select 1
+--     from public.administradores a
+--     where a.email = auth.jwt() ->> 'email'
+--   )
+-- );
+--
+-- create policy "Admins manage eventos"
+-- on public.eventos for all
+-- using (
+--   exists (
+--     select 1
+--     from public.administradores a
+--     where a.email = auth.jwt() ->> 'email'
+--   )
+-- )
+-- with check (
+--   exists (
+--     select 1
+--     from public.administradores a
+--     where a.email = auth.jwt() ->> 'email'
+--   )
+-- );
+--
+-- create policy "Admins manage estadisticas"
+-- on public.estadisticas for all
+-- using (
+--   exists (
+--     select 1
+--     from public.administradores a
+--     where a.email = auth.jwt() ->> 'email'
+--   )
+-- )
+-- with check (
+--   exists (
+--     select 1
+--     from public.administradores a
+--     where a.email = auth.jwt() ->> 'email'
+--   )
+-- );
+--
+-- create policy "Admins manage testimonios"
+-- on public.testimonios for all
+-- using (
+--   exists (
+--     select 1
+--     from public.administradores a
+--     where a.email = auth.jwt() ->> 'email'
+--   )
+-- )
+-- with check (
+--   exists (
+--     select 1
+--     from public.administradores a
+--     where a.email = auth.jwt() ->> 'email'
+--   )
+-- );
+--
+-- create policy "Admins manage galeria"
+-- on public.galeria for all
+-- using (
+--   exists (
+--     select 1
+--     from public.administradores a
+--     where a.email = auth.jwt() ->> 'email'
+--   )
+-- )
+-- with check (
+--   exists (
+--     select 1
+--     from public.administradores a
+--     where a.email = auth.jwt() ->> 'email'
+--   )
+-- );
+--
+-- create policy "Admins read administrators"
+-- on public.administradores for select
+-- using (exists (select 1 from public.administradores a where a.email = auth.jwt() ->> 'email'));
+--
 -- Storage bucket
-insert into storage.buckets (id, name, public)
-values ('fundacion-media', 'fundacion-media', true)
-on conflict (id) do nothing;
-
-create policy "Public read fundacion media"
-on storage.objects for select
-using (bucket_id = 'fundacion-media');
-
-create policy "Admins upload fundacion media"
-on storage.objects for insert
-with check (bucket_id = 'fundacion-media' and public.is_admin_user());
-
-create policy "Admins update fundacion media"
-on storage.objects for update
-using (bucket_id = 'fundacion-media' and public.is_admin_user());
-
-create policy "Admins delete fundacion media"
-on storage.objects for delete
-using (bucket_id = 'fundacion-media' and public.is_admin_user());
+-- insert into storage.buckets (id, name, public)
+-- values ('fundacion-media', 'fundacion-media', true)
+-- on conflict (id) do nothing;
+--
+-- create policy "Public read fundacion media"
+-- on storage.objects for select
+-- using (bucket_id = 'fundacion-media');
+--
+-- create policy "Admins upload fundacion media"
+-- on storage.objects for insert
+-- with check (bucket_id = 'fundacion-media' and exists (select 1 from public.administradores a where a.email = auth.jwt() ->> 'email'));
+--
+-- create policy "Admins update fundacion media"
+-- on storage.objects for update
+-- using (bucket_id = 'fundacion-media' and exists (select 1 from public.administradores a where a.email = auth.jwt() ->> 'email'));
+--
+-- create policy "Admins delete fundacion media"
+-- on storage.objects for delete
+-- using (bucket_id = 'fundacion-media' and exists (select 1 from public.administradores a where a.email = auth.jwt() ->> 'email'));

@@ -7,9 +7,9 @@ values
 
 insert into public.eventos (titulo, descripcion, fecha_evento, lugar, imagen, estado)
 values (
-  'Festival comunitario de arte',
-  'Encuentro de expresion artistica con ninos y jovenes.',
-  now() + interval '14 days',
+  'Concierto comunitario de arte y música',
+  'Encuentro de expresion artistica con ninos, jovenes y familias.',
+  timestamp '2026-05-26 12:00:00+00',
   'Duitama, Boyaca',
   'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=80',
   'futuro'

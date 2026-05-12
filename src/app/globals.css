@@ -21,10 +21,19 @@
   --ring: #5eead4;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-nunito), sans-serif;
+  background-image:
+    radial-gradient(circle at top left, rgba(251, 191, 36, 0.1), transparent 26%),
+    radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.08), transparent 22%);
+  background-attachment: fixed;
+  transition: background-color 300ms ease, color 300ms ease;
 }
 
 h1,
@@ -32,10 +41,6 @@ h2,
 h3,
 h4 {
   font-family: var(--font-playfair), serif;
-}
-
-* {
-  scroll-behavior: smooth;
 }
 
 ::selection {
