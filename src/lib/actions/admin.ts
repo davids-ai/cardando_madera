@@ -5,6 +5,10 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 async function ensureAdmin() {
   const supabase = await createServerSupabaseClient();
+  if (!supabase) {
+    throw new Error("Supabase no configurado");
+  }
+
   const {
     data: { user },
     error,
@@ -29,6 +33,10 @@ async function ensureAdmin() {
 
 export async function signOutAction() {
   const supabase = await createServerSupabaseClient();
+  if (!supabase) {
+    return;
+  }
+
   await supabase.auth.signOut();
   revalidatePath("/", "layout");
 }

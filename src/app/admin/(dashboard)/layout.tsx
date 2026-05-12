@@ -5,6 +5,10 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export default async function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createServerSupabaseClient();
+  if (!supabase) {
+    redirect("/admin/login");
+  }
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
